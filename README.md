@@ -12,12 +12,14 @@ Excellent article from James Thomas that helped (_skip the stuff about downloadi
 
 ## Example Usages
 
--   Retrain and test model:  
-    `node app.js --images_dir="C:/Retraining_Project/Images" --model_dir="C:/Retraining_Project/Model"`
--   Skip retraining; just test model:  
-    `node app.js --images_dir="C:/Retraining_Project/Images" --model_dir="C:/Retraining_Project/Model" --skip_training=true`
--   Create sample images:  
-    `node create_images.js C:/Retraining_Project/Images`
+* Retrain and test model:  
+  * `node app.js --images_dir="./artifacts/train-images" --model_dir="./build/models"`
+  * `npm run train`
+* Skip retraining; just test model:  
+  * `node app.js --images_dir="./artifacts/validate-images" --model_dir="./build/models" --skip_training=true`
+  * `npm run classify`
+* Create sample images:  
+  * `node create_images.js ./build/test-images`
 
 ## Help
 

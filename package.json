@@ -5,7 +5,9 @@
     "main": "app.js",
     "scripts": {
         "start": "node app.js --images_dir=\"C:/ML Demo/Projects/Colors_2/Images\" --model_dir=\"C:/ML Demo/Projects/Colors_2/tfjs-graph/\"",
-        "no-retrain": "node app.js --images_dir=\"C:/ML Demo/Projects/Colors_2/Images\" --model_dir=\"C:/ML Demo/Projects/Colors_2/tfjs-graph/\" --skip_training"
+        "no-retrain": "node app.js --images_dir=\"C:/ML Demo/Projects/Colors_2/Images\" --model_dir=\"C:/ML Demo/Projects/Colors_2/tfjs-graph/\" --skip_training",
+        "train": "node app.js --images_dir=\"./artifacts/train-images\" --model_dir=\"./build/models\"",
+        "classify": "node app.js --images_dir=\"./artifacts/validate-images\" --model_dir=\"./build/models\" --skip_training=true"
     },
     "author": "Josh Adwell",
     "license": "ISC",
