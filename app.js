@@ -2,6 +2,7 @@
 const tf = require("@tensorflow/tfjs");
 require("@tensorflow/tfjs-node");
 global.fetch = require("node-fetch");
+const fse = require("fs-extra");
 
 const minimist = require("minimist");
 const model = require("./model");
@@ -59,11 +60,16 @@ async function testModel() {
 
                     let prediction = Model.getPrediction(embeddings);
                     results.push({
+                        filename: img_filename,
+                        results: prediction
+                        /*
                         class: prediction.label,
                         probability: (
                             Number(prediction.confidence) * 100
                         ).toFixed(1)
+                        */
                     });
+                    /*
                     if (prediction.label !== item.label) {
                         mislabeled.push({
                             class: item.label,
@@ -72,12 +78,18 @@ async function testModel() {
                         });
                         totalMislabeled++;
                     }
+                    */
                 });
             });
-            console.log({
-                label: item.label,
-                predictions: results.slice(0, 10)
-            });
+            console.log('==================================================')
+            console.log(item.label.toUpperCase())
+            for(let result of results) {
+                console.log(result.filename)
+                for(let prediction of result.results) {
+                    console.log(`---> ${prediction.label} = ${Number(prediction.confidence * 100).toFixed(4)}`)
+                }
+                console.log('-------------------------------------------------')
+            }
         });
         console.timeEnd("Testing Predictions");
         console.log(mislabeled);
@@ -123,13 +135,11 @@ init()
     .then(async () => {
         if (args.skip_training) return;
 
-        try {
-            await trainModel();
+        console.info('first we deleted the previous models')
+        await fse.emptyDir(args.model_dir)
+        await trainModel();
 
-            await Model.saveModel(args.model_dir);
-        } catch (error) {
-            console.error(error);
-        }
+        await Model.saveModel(args.model_dir);
     })
     .then(() => {
         testModel();

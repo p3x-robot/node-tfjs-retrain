@@ -83,11 +83,21 @@ class Model {
             embeddings = this.decapitatedMobilenet.predict(x);
         }
 
-        let { values, indices } = this.model.predict(embeddings).topk();
-        return {
-            label: this.labels[indices.dataSync()[0]],
-            confidence: values.dataSync()[0]
-        };
+
+        let { values, indices } = this.model.predict(embeddings).topk(3);
+
+        values = values.dataSync()
+        indices = indices.dataSync()
+
+        const result = []
+        for(let index in values) {
+            result.push({
+                label: this.labels[indices[index]],
+                confidence: values[index],
+            })
+        }
+
+        return result;
     }
 
     async loadModel(dirPath) {
